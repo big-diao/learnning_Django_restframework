@@ -43,10 +43,11 @@ def api_root(req,format=None):
         'books': reverse('book-list',request=req,format=format)
     })
 
-class BookName(generics.GenericAPIView):
+
+class BookWhat(generics.GenericAPIView):
     queryset = Book.objects.all()
     renderer_classes = (renderers.StaticHTMLRenderer)
 
-    def get(self,req,*args,**kwargs):
+    def get(self, req, *args,**kwargs):
         book = self.get_object()
         return Response(book.name)

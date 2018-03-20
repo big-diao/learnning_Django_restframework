@@ -3,15 +3,15 @@ from rest_framework import serializers
 from .models import Book
 
 class BookSerializer(serializers.HyperlinkedModelSerializer):
-    owner = serializers.CharField(source='owner.username',read_only=True)
-    name = serializers.HyperlinkedIdentityField(view_name='book-name',format='html')
+    owner = serializers.CharField(source='owner.username')
+    what = serializers.HyperlinkedIdentityField(view_name='book-what',format='html')
 
     class Meta:
         model = Book
-        fields = ('owner','name','created')
+        fields = ('name','created','owner','what')
 
-class UserSerializer(serializers.ModelSerializer):
-    books = serializers.PrimaryKeyRelatedField(many=True,queryset=Book.objects.all())
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    books = serializers.HyperlinkedRelatedField(many=True,view_name='book-detail',read_only=True)
 
     class Meta:
         model = User
